@@ -26,8 +26,11 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'scrooloose/syntastic'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-Plugin 'JamshedVesuna/vim-markdown-preview'
 Plugin 'heavenshell/vim-jsdoc'
+Plugin 'othree/html5.vim'
+Plugin 'morhetz/gruvbox'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -141,7 +144,7 @@ endif
 syntax enable
 set background=dark
 colorscheme monokai
-" set guioptions-=m  "remove menu bar
+set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scrollbar
 set guioptions-=L  "remove left-hand scrollbar
@@ -196,3 +199,10 @@ let g:UltiSnipsEditSplit="vertical"
 " Set split sides
 set splitbelow
 set splitright
+
+" Find/Replace selected text
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+
+" Disable bell
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
