@@ -13,7 +13,6 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'valloric/youcompleteme'
 Plugin 'editorconfig/editorconfig-vim'
-Plugin 'maksimr/vim-jsbeautify'
 Plugin 'git@github.com:digitaltoad/vim-pug.git'
 Plugin 'git@github.com:xolox/vim-misc.git'
 Plugin 'git@github.com:xolox/vim-session.git'
@@ -22,7 +21,8 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'Raimondi/delimitMate'
 Plugin 'ternjs/tern_for_vim'
 Plugin 'pangloss/vim-javascript'
-Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'Yggdroot/indentLine'
 Plugin 'scrooloose/syntastic'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
@@ -31,10 +31,16 @@ Plugin 'othree/html5.vim'
 Plugin 'morhetz/gruvbox'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'geoffharcourt/vim-matchit'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+filetype indent on           " Enable filetype-specific indenting
+filetype on                  " Enable filetype detection
 
 " An example for a vimrc file.
 "
@@ -140,17 +146,28 @@ if has('langmap') && exists('+langnoremap')
   set langnoremap
 endif
 
+" search tags
+set tags=tags;/
+
 " window settings
 syntax enable
-set background=dark
-colorscheme monokai
+set background=dark    " Setting dark mode
+"set background=light   " Setting light mode
+let g:gruvbox_italic=1
+let g:gruvbox_contrast_dark='soft'
+colorscheme gruvbox
+let g:airline_theme='gruvbox'
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scrollbar
 set guioptions-=L  "remove left-hand scrollbar
 
 " jsbeautify
-map <c-f> :call JsBeautify()<cr>
+autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
+autocmd FileType json noremap <buffer> <c-f> :call JsonBeautify()<cr>
+autocmd FileType jsx noremap <buffer> <c-f> :call JsxBeautify()<cr>
+autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
 
 " Store swap files in fixed location, not current directory.
 set backupdir=/tmp
@@ -174,6 +191,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint', 'jshint']
+
 
 " Add optional packages.
 "
@@ -206,3 +225,34 @@ vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 " Disable bell
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
+
+" highlighting current line
+set cul
+
+" auto refresh files
+set autoread
+
+" indentLine
+let g:indentLine_enabled=1
+highligh SpecialKey ctermbg=none
+set listchars=tab:\┆\ 
+set list
+
+" ==== NERD tree
+" Open the project tree and expose current file in the nerdtree with Ctrl-\
+" " calls NERDTreeFind iff NERDTree is active, current window contains a modifiable file, and we're not in vimdiff
+function! OpenNerdTree()
+  if &modifiable && strlen(expand('%')) > 0 && !&diff
+    NERDTreeFind
+  else
+    NERDTreeToggle
+  endif
+endfunction
+nnoremap <silent> <C-\> :call OpenNerdTree()<CR>
+let NERDTreeShowHidden=1
+
+" disable auto-hide
+set conceallevel=0
+set cole=0 
+au FileType * setl cole=0 
+
