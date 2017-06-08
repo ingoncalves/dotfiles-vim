@@ -1,46 +1,49 @@
 set nocompatible              " be iMproved, required
-filetype off                  " required
 set encoding=utf-8             " Use utf-8
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
 
 " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'valloric/youcompleteme'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'git@github.com:digitaltoad/vim-pug.git'
-Plugin 'git@github.com:xolox/vim-misc.git'
-Plugin 'git@github.com:xolox/vim-session.git'
-Plugin 'git@github.com:terryma/vim-multiple-cursors.git'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'Raimondi/delimitMate'
-Plugin 'ternjs/tern_for_vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'Yggdroot/indentLine'
-Plugin 'scrooloose/syntastic'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'heavenshell/vim-jsdoc'
-Plugin 'othree/html5.vim'
-Plugin 'morhetz/gruvbox'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'geoffharcourt/vim-matchit'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plug 'xolox/vim-misc'
+Plug 'airblade/vim-gitgutter'
+Plug 'valloric/youcompleteme', { 'do': './install.py --tern-completer' }
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+Plug 'editorconfig/editorconfig-vim'
+Plug 'sheerun/vim-polyglot'
+Plug 'xolox/vim-session'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'scrooloose/nerdcommenter'
+Plug 'Raimondi/delimitMate'
+Plug 'maksimr/vim-jsbeautify', {'do': 'git submodule update --init --recursive'}
+Plug 'scrooloose/syntastic'
+Plug 'SirVer/ultisnips'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'garbas/vim-snipmate'
+Plug 'honza/vim-snippets'
+Plug 'jamescarr/snipmate-nodejs'
+Plug 'heavenshell/vim-jsdoc'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'geoffharcourt/vim-matchit'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'curist/vim-angular-template'
+Plug 'tpope/vim-surround'
+Plug 'moll/vim-node'
+Plug 'tomasr/molokai'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+"Plugin 'ryanoasis/vim-devicons'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-filetype indent on           " Enable filetype-specific indenting
-filetype on                  " Enable filetype detection
+" Initialize plugin system
+call plug#end()
 
 " An example for a vimrc file.
 "
@@ -152,11 +155,8 @@ set tags=tags;/
 " window settings
 syntax enable
 set background=dark    " Setting dark mode
-"set background=light   " Setting light mode
-let g:gruvbox_italic=1
-let g:gruvbox_contrast_dark='soft'
-colorscheme gruvbox
-let g:airline_theme='gruvbox'
+colorscheme molokai
+let g:molokai_original = 1
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scrollbar
@@ -188,10 +188,11 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_javascript_checkers = ['eslint', 'jshint']
+"let g:syntastic_javascript_checkers = ['eslint']
 
 
 " Add optional packages.
@@ -202,6 +203,7 @@ packadd matchit
 
 " current directory abreviation '%%'
 cabbr <expr> %% expand('%:p:h')
+nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 
 set nowrap
 set hlsearch
@@ -234,7 +236,6 @@ set autoread
 
 " indentLine
 let g:indentLine_enabled=1
-highligh SpecialKey ctermbg=none
 set listchars=tab:\┆\ 
 set list
 
@@ -252,7 +253,39 @@ nnoremap <silent> <C-\> :call OpenNerdTree()<CR>
 let NERDTreeShowHidden=1
 
 " disable auto-hide
+let g:vim_json_syntax_conceal = 0
 set conceallevel=0
 set cole=0 
 au FileType * setl cole=0 
 
+" spell
+set spell spelllang=en_us,pt_br
+
+" default tabsize
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+" CTRLP settings
+let g:ctrlp_working_path_mode = 0
+
+" devicons
+"set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete\ 11
+"let g:airline_powerline_fonts = 1
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+
+" hide end of buffer '~'
+if has('gui_running')
+    hi! EndOfBuffer guibg=bg guifg=bg
+else 
+    hi! EndOfBuffer ctermbg=bg ctermfg=bg
+endif
+
+" config hidden characters exibition.
+" use with ':set list' and disable with ':set nolist'
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+set nolist

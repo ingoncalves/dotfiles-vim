@@ -1,0 +1,5 @@
+#!/bin/sh
+BASEDIR="$(cd "$( dirname "$0")" && pwd)"
+ln -sf $BASEDIR/vim ~/.vim
+ln -sf $BASEDIR/vimrc ~/.vimrc
+vim +PlugInstall +qall
