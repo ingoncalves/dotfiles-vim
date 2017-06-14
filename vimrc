@@ -40,6 +40,7 @@ Plug 'moll/vim-node'
 Plug 'tomasr/molokai'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'suan/vim-instant-markdown', { 'do': 'npm install -g instant-markdown-d' }
 "Plugin 'ryanoasis/vim-devicons'
 
 " Initialize plugin system
