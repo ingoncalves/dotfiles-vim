@@ -80,6 +80,7 @@ set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 set incsearch		" do incremental searching
 set number		" display line numbers
+set numberwidth=1
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
@@ -162,6 +163,10 @@ set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scrollbar
 set guioptions-=L  "remove left-hand scrollbar
+
+" split style for monokay
+set fillchars+=vert:\ 
+hi! VertSplit guibg=#293031 ctermbg=238
 
 " jsbeautify
 autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
