@@ -1,4 +1,16 @@
-set nocompatible              " be iMproved, required
+" A VIM config file.
+"
+" Maintainer:	Guilherme Goncalves <inacio.guilherme@gmail.com>
+" Last change:	2017 Jun 26
+"
+" To use it, copy it to
+"     for Unix and OS/2:  ~/.vimrc
+"	      for Amiga:  s:.vimrc
+"  for MS-DOS and Win32:  $VIM\_vimrc
+"	    for OpenVMS:  sys$login:.vimrc
+
+
+set nocompatible               " be iMproved, required
 set encoding=utf-8             " Use utf-8
 
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -8,9 +20,8 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-
-" let Vundle manage Vundle, required
 Plug 'xolox/vim-misc'
+Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'valloric/youcompleteme', { 'do': './install.py --tern-completer' }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
@@ -41,21 +52,8 @@ Plug 'tomasr/molokai'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'suan/vim-instant-markdown', { 'do': 'npm install -g instant-markdown-d' }
-"Plugin 'ryanoasis/vim-devicons'
-
-" Initialize plugin system
 call plug#end()
 
-" An example for a vimrc file.
-"
-" Maintainer:	Bram Moolenaar <Bram@vim.org>
-" Last change:	2016 Mar 25
-"
-" To use it, copy it to
-"     for Unix and OS/2:  ~/.vimrc
-"	      for Amiga:  s:.vimrc
-"  for MS-DOS and Win32:  $VIM\_vimrc
-"	    for OpenVMS:  sys$login:.vimrc
 
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
@@ -163,6 +161,9 @@ set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scrollbar
 set guioptions-=L  "remove left-hand scrollbar
+
+" font
+set guifont=UbuntuMonoDerivativePowerline\ Nerd\ Font\ 11
 
 " split style for monokay
 set fillchars+=vert:\ 
@@ -275,9 +276,12 @@ set expandtab
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard'] " ignores files .gitignore
 
-" devicons
-"set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete\ 11
-"let g:airline_powerline_fonts = 1
+" airline
+set laststatus=2
+let g:airline_theme='molokai'
+let g:airline_powerline_fonts=1
+
+" nerdtree-syntax-highlight
 let g:NERDTreeFileExtensionHighlightFullName = 1
 let g:NERDTreeExactMatchHighlightFullName = 1
 let g:NERDTreePatternMatchHighlightFullName = 1
