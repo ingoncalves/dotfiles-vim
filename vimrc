@@ -55,6 +55,7 @@ Plug 'suan/vim-instant-markdown', { 'do': 'npm install -g instant-markdown-d' }
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
 Plug 'alvan/vim-closetag'
+Plug 'MattesGroeger/vim-bookmarks'
 call plug#end()
 
 
