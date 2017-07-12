@@ -1,0 +1,20 @@
+snippet ngcomponent
+(function() {
+	'use strict';
+
+	angular
+		.module('${1:module}')
+		.component('${2:component}', {
+			controller: ${3:Controller}
+			bindings: {
+
+			}
+		});
+	
+	/* @ngInject */
+	function $3(${4:dependencies}) {
+
+	}
+
+})();
+endsnippet
