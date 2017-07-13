@@ -56,6 +56,7 @@ Plug 'suan/vim-instant-markdown', { 'do': 'npm install -g instant-markdown-d' }
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
 Plug 'MattesGroeger/vim-bookmarks'
+Plug 'xolox/vim-easytags', { 'do': 'sudo apt-get install exuberant-ctags' }
 call plug#end()
 
 
@@ -330,3 +331,7 @@ nmap <Leader>mkk <Plug>BookmarkMoveUp
 nmap <Leader>mjj <Plug>BookmarkMoveDown
 nmap <Leader>mg <Plug>BookmarkMoveToLine
 let g:bookmark_no_default_key_mappings = 1
+
+" easytags
+let g:easytags_async = 1
+let g:easytags_resolve_links = 1
