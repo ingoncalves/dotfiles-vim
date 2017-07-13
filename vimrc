@@ -33,7 +33,7 @@ Plug 'xolox/vim-session'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'
 Plug 'maksimr/vim-jsbeautify', {'do': 'git submodule update --init --recursive'}
-Plug 'scrooloose/syntastic', { 'do': 'npm install -g eslint jshint' }
+Plug 'scrooloose/syntastic', { 'do': 'sudo npm install -g eslint jshint' }
 Plug 'SirVer/ultisnips'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
@@ -52,7 +52,7 @@ Plug 'moll/vim-node'
 Plug 'tomasr/molokai'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'suan/vim-instant-markdown', { 'do': 'npm install -g instant-markdown-d' }
+Plug 'suan/vim-instant-markdown', { 'do': 'sudo npm install -g instant-markdown-d' }
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
 Plug 'MattesGroeger/vim-bookmarks'
