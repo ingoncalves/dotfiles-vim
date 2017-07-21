@@ -49,7 +49,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'curist/vim-angular-template'
 Plug 'tpope/vim-surround'
 Plug 'moll/vim-node'
-Plug 'tomasr/molokai'
+Plug 'crusoexia/vim-monokai'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'suan/vim-instant-markdown', { 'do': 'sudo npm install -g instant-markdown-d' }
@@ -159,20 +159,20 @@ set tags=tags;/
 
 " window settings
 syntax enable
-set background=dark    " Setting dark mode
-colorscheme molokai
-let g:molokai_original = 1
+colorscheme monokai
+set t_Co=256  " vim-monokai now only support 256 colours in terminal.
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scrollbar
 set guioptions-=L  "remove left-hand scrollbar
 
-" font
-set guifont=UbuntuMonoDerivativePowerline\ Nerd\ Font\ 11
-
 " split style for monokay
 set fillchars+=vert:\ 
-hi! VertSplit guibg=#293031 ctermbg=238
+let g:monokai_term_italic = 1
+let g:monokai_gui_italic = 1
+
+" font
+set guifont=UbuntuMonoDerivativePowerline\ Nerd\ Font\ 11
 
 " jsbeautify
 autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
@@ -283,8 +283,11 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 
 " airline
 set laststatus=2
-let g:airline_theme='molokai'
+let g:airline_theme='luna'
 let g:airline_powerline_fonts=1
+let g:airline_detect_spell=0
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#hunks#enabled = 0
 
 " nerdtree-syntax-highlight
 let g:NERDTreeFileExtensionHighlightFullName = 1
