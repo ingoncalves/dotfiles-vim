@@ -23,8 +23,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'xolox/vim-misc'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
 Plug 'valloric/youcompleteme', { 'do': './install.py --tern-completer' }
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'jiangmiao/auto-pairs'
@@ -271,6 +271,7 @@ au FileType * setl cole=0
 
 " spell
 set spell spelllang=en_us,pt_br
+set nospell
 
 " default tabsize
 set tabstop=4
@@ -283,10 +284,11 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 
 " airline
 set laststatus=2
-let g:airline_theme='luna'
+let g:airline_theme='base16_monokai'
 let g:airline_powerline_fonts=1
 let g:airline_detect_spell=0
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#hunks#enabled = 0
 
 " nerdtree-syntax-highlight
@@ -338,3 +340,6 @@ let g:bookmark_no_default_key_mappings = 1
 " easytags
 let g:easytags_async = 1
 let g:easytags_resolve_links = 1
+
+" map nohl
+nnoremap <ESC> :noh<ESC><ESC>
