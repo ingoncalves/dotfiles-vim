@@ -343,3 +343,6 @@ let g:easytags_resolve_links = 1
 
 " map nohl
 nnoremap <ESC> :noh<ESC><ESC>
+
+" auto-pairs
+let g:AutoPairsShortcutBackInsert = '<M-S-b>'
