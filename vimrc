@@ -1,13 +1,13 @@
 " A VIM config file.
 "
-" Maintainer:	Guilherme Goncalves <inacio.guilherme@gmail.com>
-" Last change:	2017 Jun 26
+" Maintainer:   Guilherme Goncalves <inacio.guilherme@gmail.com>
+" Credits:      Bram Moolenaar <Bram@vim.org>
 "
 " To use it, copy it to
 "     for Unix and OS/2:  ~/.vimrc
-"	      for Amiga:  s:.vimrc
+"     for Amiga:  s:.vimrc
 "  for MS-DOS and Win32:  $VIM\_vimrc
-"	    for OpenVMS:  sys$login:.vimrc
+"     for OpenVMS:  sys$login:.vimrc
 
 
 set nocompatible               " be iMproved, required
@@ -73,16 +73,16 @@ set nocompatible
 set backspace=indent,eol,start
 
 if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
+  set nobackup      " do not keep a backup file, use versions instead
 else
-  set backup		" keep a backup file (restore to previous version)
-  set undofile		" keep an undo file (undo changes after closing)
+  set backup        " keep a backup file (restore to previous version)
+  set undofile      " keep an undo file (undo changes after closing)
 endif
-set history=50		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
-set number		" display line numbers
+set history=50      " keep 50 lines of command line history
+set ruler       " show the cursor position all the time
+set showcmd     " display incomplete commands
+set incsearch       " do incremental searching
+set number      " display line numbers
 set numberwidth=1
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
@@ -135,7 +135,7 @@ if has("autocmd")
 
 else
 
-  set autoindent		" always set autoindenting on
+  set autoindent        " always set autoindenting on
 
 endif " has("autocmd")
 
@@ -143,8 +143,7 @@ endif " has("autocmd")
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
 if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthisi | wincmd p | diffthis
 endif
 
 if has('langmap') && exists('+langnoremap')
@@ -284,12 +283,14 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 
 " airline
 set laststatus=2
-let g:airline_theme='base16_monokai'
-let g:airline_powerline_fonts=1
+let g:airline_theme='minimalist'
 let g:airline_detect_spell=0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#hunks#enabled = 0
+if has('gui_running')
+    let g:airline_powerline_fonts=1
+endif
 
 " nerdtree-syntax-highlight
 let g:NERDTreeFileExtensionHighlightFullName = 1
@@ -323,6 +324,16 @@ nmap <Leader>L <Plug>(easymotion-overwin-line)
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
 
+" Gif config
+"map  / <Plug>(easymotion-sn)
+"omap / <Plug>(easymotion-tn)
+
+" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+" Without these mappings, `n` & `N` works fine. (These mappings just provide
+" different highlight method and have some other features )
+"map  n <Plug>(easymotion-next)
+"map  N <Plug>(easymotion-prev)
+
 
 " bookmarks
 nmap <Leader>m <Plug>BookmarkToggle
@@ -340,9 +351,6 @@ let g:bookmark_no_default_key_mappings = 1
 " easytags
 let g:easytags_async = 1
 let g:easytags_resolve_links = 1
-
-" map nohl
-nnoremap <ESC> :noh<ESC><ESC>
 
 " auto-pairs
 let g:AutoPairsShortcutBackInsert = '<M-S-b>'
