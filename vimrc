@@ -49,13 +49,14 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'curist/vim-angular-template'
 Plug 'tpope/vim-surround'
 Plug 'moll/vim-node'
-Plug 'crusoexia/vim-monokai'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'suan/vim-instant-markdown', { 'do': 'sudo npm install -g instant-markdown-d' }
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
 Plug 'xolox/vim-easytags', { 'do': 'sudo apt-get install exuberant-ctags' }
+Plug 'Yggdroot/indentLine'
+Plug 'morhetz/gruvbox'
 call plug#end()
 
 
@@ -157,20 +158,96 @@ set tags=tags;/
 
 " window settings
 syntax enable
-colorscheme monokai
-set t_Co=256  " vim-monokai now only support 256 colours in terminal.
+
+" gruvbox settings
+let g:gruvbox_italicize_strings=1
+
+set background=dark
+set t_Co=256
+colorscheme gruvbox
+
+nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
+nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
+nnoremap <silent> coh :call gruvbox#hls_toggle()<CR>
+nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
+nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
+nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
+
+" gui settings
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scrollbar
 set guioptions-=L  "remove left-hand scrollbar
 
-" split style for monokay
+" split style
 set fillchars+=vert:\ 
-let g:monokai_term_italic = 1
-let g:monokai_gui_italic = 1
 
 " font
 set guifont=UbuntuMonoDerivativePowerline\ Nerd\ Font\ 11
+
+" airline
+set laststatus=2
+let g:airline_theme='gruvbox'
+let g:airline_detect_spell=0
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#hunks#enabled = 0
+if has('gui_running')
+    let g:airline_powerline_fonts=1
+
+    if !exists('g:airline_symbols')
+      let g:airline_symbols = {}
+    endif
+    
+    " unicode symbols
+    let g:airline_left_sep = '»'
+    let g:airline_left_sep = ''
+    let g:airline_right_sep = '«'
+    let g:airline_right_sep = ''
+    let g:airline_symbols.crypt = ''
+    let g:airline_symbols.linenr = '␊'
+    let g:airline_symbols.linenr = '␤'
+    let g:airline_symbols.linenr = '¶'
+    let g:airline_symbols.maxlinenr = '☰'
+    let g:airline_symbols.maxlinenr = ''
+    let g:airline_symbols.branch = '⎇'
+    let g:airline_symbols.paste = 'ρ'
+    let g:airline_symbols.paste = 'Þ'
+    let g:airline_symbols.paste = '∥'
+    let g:airline_symbols.spell = 'Ꞩ'
+    let g:airline_symbols.notexists = '∄'
+    let g:airline_symbols.whitespace = 'Ξ'
+    
+    " powerline symbols
+    let g:airline_left_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline_right_alt_sep = ''
+    let g:airline_symbols.branch = ''
+    let g:airline_symbols.readonly = ''
+    let g:airline_symbols.linenr = ''
+
+endif
+
+" nerdtree-syntax-highlight
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+
+" hide end of buffer '~'
+if has('gui_running')
+    hi! EndOfBuffer guibg=bg guifg=bg
+else
+    hi! EndOfBuffer ctermbg=bg ctermfg=bg
+endif
+
+" config hidden characters exibition.
+" use with ':set list' and disable with ':set nolist'
+"set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+"set nolist
 
 " jsbeautify
 autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
@@ -264,8 +341,8 @@ let NERDTreeShowHidden=1
 " disable auto-hide
 let g:vim_json_syntax_conceal = 0
 set conceallevel=0
-set cole=0 
-au FileType * setl cole=0 
+set cole=0
+au FileType * setl cole=0
 
 " spell
 set spell spelllang=en_us,pt_br
@@ -279,36 +356,6 @@ set expandtab
 " CTRLP settings
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard'] " ignores files .gitignore
-
-" airline
-set laststatus=2
-let g:airline_theme='minimalist'
-let g:airline_detect_spell=0
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#hunks#enabled = 0
-if has('gui_running')
-    let g:airline_powerline_fonts=1
-endif
-
-" nerdtree-syntax-highlight
-let g:NERDTreeFileExtensionHighlightFullName = 1
-let g:NERDTreeExactMatchHighlightFullName = 1
-let g:NERDTreePatternMatchHighlightFullName = 1
-let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
-let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
-
-" hide end of buffer '~'
-if has('gui_running')
-    hi! EndOfBuffer guibg=bg guifg=bg
-else 
-    hi! EndOfBuffer ctermbg=bg ctermfg=bg
-endif
-
-" config hidden characters exibition.
-" use with ':set list' and disable with ':set nolist'
-set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
-set nolist
 
 " easymotion
 " <Leader>f{char} to move to {char}
