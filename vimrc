@@ -57,6 +57,7 @@ Plug 'tpope/vim-repeat'
 Plug 'xolox/vim-easytags', { 'do': 'sudo apt-get install exuberant-ctags' }
 Plug 'Yggdroot/indentLine'
 Plug 'morhetz/gruvbox'
+Plug 'Quramy/tsuquyomi', { 'do': 'sudo npm install -g typescript' }
 call plug#end()
 
 
@@ -267,7 +268,7 @@ let g:session_autoload = 'no'
 " youcompleteme
 let g:ycm_add_preview_to_completeopt=0
 let g:ycm_confirm_extra_conf=0
-set completeopt-=preview
+"set completeopt-=preview
 
 " syntastic
 set statusline+=%#warningmsg#
