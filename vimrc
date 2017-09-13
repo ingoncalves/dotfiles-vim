@@ -32,7 +32,7 @@ Plug 'alvan/vim-closetag'
 Plug 'xolox/vim-session'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'
-Plug 'maksimr/vim-jsbeautify', {'do': 'git submodule update --init --recursive'}
+Plug 'Chiel92/vim-autoformat', {'do': 'sudo npm install -g js-beautify typescript-formatter'}
 Plug 'scrooloose/syntastic', { 'do': 'sudo npm install -g eslint jshint' }
 Plug 'SirVer/ultisnips'
 Plug 'MarcWeber/vim-addon-mw-utils'
@@ -58,6 +58,7 @@ Plug 'xolox/vim-easytags', { 'do': 'sudo apt-get install exuberant-ctags' }
 Plug 'Yggdroot/indentLine'
 Plug 'morhetz/gruvbox'
 Plug 'Quramy/tsuquyomi', { 'do': 'sudo npm install -g typescript' }
+Plug 'godlygeek/tabular'
 call plug#end()
 
 
@@ -249,12 +250,8 @@ endif
 "set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 "set nolist
 
-" jsbeautify
-autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
-autocmd FileType json noremap <buffer> <c-f> :call JsonBeautify()<cr>
-autocmd FileType jsx noremap <buffer> <c-f> :call JsxBeautify()<cr>
-autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
-autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+" autoformat
+noremap <F3> :Autoformat<CR>
 
 " Store swap files in fixed location, not current directory.
 set backupdir=/tmp
@@ -376,3 +373,6 @@ let g:easytags_resolve_links = 1
 
 " auto-pairs
 let g:AutoPairsShortcutBackInsert = '<M-S-b>'
+
+" scroll
+set scrolloff=10
