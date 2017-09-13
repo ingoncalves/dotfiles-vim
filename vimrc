@@ -58,7 +58,7 @@ Plug 'xolox/vim-easytags', { 'do': 'sudo apt-get install exuberant-ctags' }
 Plug 'Yggdroot/indentLine'
 Plug 'morhetz/gruvbox'
 Plug 'Quramy/tsuquyomi', { 'do': 'sudo npm install -g typescript' }
-Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-easy-align'
 call plug#end()
 
 
@@ -376,3 +376,9 @@ let g:AutoPairsShortcutBackInsert = '<M-S-b>'
 
 " scroll
 set scrolloff=10
+
+" easy-align
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
