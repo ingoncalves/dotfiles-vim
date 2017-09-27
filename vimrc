@@ -59,6 +59,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'morhetz/gruvbox'
 Plug 'Quramy/tsuquyomi', { 'do': 'sudo npm install -g typescript' }
 Plug 'junegunn/vim-easy-align'
+Plug 'csscomb/vim-csscomb', { 'do': 'sudo npm install -g csscomb' }
 call plug#end()
 
 
@@ -373,6 +374,7 @@ let g:easytags_resolve_links = 1
 
 " auto-pairs
 let g:AutoPairsShortcutBackInsert = '<M-S-b>'
+let g:AutoPairsMultilineClose=0
 
 " scroll
 set scrolloff=10
@@ -382,3 +384,8 @@ set scrolloff=10
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
+" typescript
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
+autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
