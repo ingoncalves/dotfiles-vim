@@ -32,7 +32,7 @@ Plug 'alvan/vim-closetag'
 Plug 'xolox/vim-session'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'
-Plug 'Chiel92/vim-autoformat', {'do': 'sudo npm install -g js-beautify typescript-formatter'}
+Plug 'Chiel92/vim-autoformat', {'do': 'sudo npm install -g eslint js-beautify typescript-formatter'}
 Plug 'scrooloose/syntastic', { 'do': 'sudo npm install -g eslint jshint' }
 Plug 'SirVer/ultisnips'
 Plug 'MarcWeber/vim-addon-mw-utils'
@@ -276,7 +276,20 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers = ['eslint', 'jshint']
+let g:syntastic_aggregate_errors = 1
+
+function! GetJSCheckers()
+    let checkers = []
+    if findfile('.eslintrc', '.;') != '' || findfile('.eslintrc.js', '.;') != ''
+        call add(checkers, 'eslint')
+    endif
+    if findfile('.jshintrc', '.;') != ''
+        call add(checkers, 'jshint')
+    endif
+    return checkers
+endfunction
+
+autocmd FileType javascript let b:syntastic_checkers = GetJSCheckers()
 
 
 " Add optional packages.
@@ -389,3 +402,7 @@ nmap ga <Plug>(EasyAlign)
 let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
 autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
+
+" vue
+let g:vue_disable_pre_processors=1
+let g:formatters_vue = ['eslint_local']
