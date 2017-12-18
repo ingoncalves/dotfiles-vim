@@ -33,7 +33,7 @@ Plug 'xolox/vim-session'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'
 Plug 'Chiel92/vim-autoformat', {'do': 'sudo npm install -g eslint js-beautify typescript-formatter'}
-Plug 'scrooloose/syntastic', { 'do': 'sudo npm install -g eslint jshint' }
+Plug 'scrooloose/syntastic', { 'do': 'sudo npm install -g eslint jshint tslint' }
 Plug 'SirVer/ultisnips'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
@@ -264,8 +264,8 @@ let g:session_autosave = 'no'
 let g:session_autoload = 'no'
 
 " youcompleteme
-let g:ycm_add_preview_to_completeopt=0
-let g:ycm_confirm_extra_conf=0
+"let g:ycm_add_preview_to_completeopt=0
+"let g:ycm_confirm_extra_conf=0
 "set completeopt-=preview
 
 " syntastic
@@ -290,6 +290,7 @@ function! GetJSCheckers()
 endfunction
 
 autocmd FileType javascript let b:syntastic_checkers = GetJSCheckers()
+let g:syntastic_typescript_checkers = ['tslint', 'tsc']
 
 
 " Add optional packages.
@@ -400,7 +401,8 @@ nmap ga <Plug>(EasyAlign)
 
 " typescript
 let g:tsuquyomi_disable_quickfix = 1
-let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
+let g:tsuquyomi_shortest_import_path = 1
+"let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
 autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 
 " vue
