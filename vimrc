@@ -56,10 +56,11 @@ Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
 Plug 'xolox/vim-easytags', { 'do': 'sudo apt-get install exuberant-ctags' }
 Plug 'Yggdroot/indentLine'
-Plug 'morhetz/gruvbox'
 Plug 'Quramy/tsuquyomi', { 'do': 'sudo npm install -g typescript' }
 Plug 'junegunn/vim-easy-align'
 Plug 'csscomb/vim-csscomb', { 'do': 'sudo npm install -g csscomb' }
+Plug 'morhetz/gruvbox'
+Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
 
 
@@ -162,19 +163,19 @@ set tags=tags;/
 " window settings
 syntax enable
 
-" gruvbox settings
-let g:gruvbox_italicize_strings=1
-
 set background=dark
 set t_Co=256
-colorscheme gruvbox
+colorscheme dracula
 
-nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
-nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
-nnoremap <silent> coh :call gruvbox#hls_toggle()<CR>
-nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
-nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
-nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
+" gruvbox settings
+"let g:gruvbox_italicize_strings=1
+"colorscheme gruvbox
+"nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
+"nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
+"nnoremap <silent> coh :call gruvbox#hls_toggle()<CR>
+"nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
+"nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
+"nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
 
 " gui settings
 set guioptions-=m  "remove menu bar
@@ -183,14 +184,14 @@ set guioptions-=r  "remove right-hand scrollbar
 set guioptions-=L  "remove left-hand scrollbar
 
 " split style
-set fillchars+=vert:\ 
+"set fillchars+=|
 
 " font
 set guifont=UbuntuMonoDerivativePowerline\ Nerd\ Font\ 11
 
 " airline
 set laststatus=2
-let g:airline_theme='gruvbox'
+let g:airline_theme='base16_ashes'
 let g:airline_detect_spell=0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
@@ -240,11 +241,11 @@ let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exac
 let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
 
 " hide end of buffer '~'
-if has('gui_running')
-    hi! EndOfBuffer guibg=bg guifg=bg
-else
-    hi! EndOfBuffer ctermbg=bg ctermfg=bg
-endif
+"if has('gui_running')
+    "hi! EndOfBuffer guibg=bg guifg=bg
+"else
+    "hi! EndOfBuffer ctermbg=bg ctermfg=bg
+"endif
 
 " config hidden characters exibition.
 " use with ':set list' and disable with ':set nolist'
@@ -264,9 +265,9 @@ let g:session_autosave = 'no'
 let g:session_autoload = 'no'
 
 " youcompleteme
-"let g:ycm_add_preview_to_completeopt=0
-"let g:ycm_confirm_extra_conf=0
-"set completeopt-=preview
+let g:ycm_add_preview_to_completeopt=0
+let g:ycm_confirm_extra_conf=0
+set completeopt-=preview
 
 " syntastic
 set statusline+=%#warningmsg#
@@ -278,19 +279,19 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_aggregate_errors = 1
 
-function! GetJSCheckers()
-    let checkers = []
-    if findfile('.eslintrc', '.;') != '' || findfile('.eslintrc.js', '.;') != ''
-        call add(checkers, 'eslint')
-    endif
-    if findfile('.jshintrc', '.;') != ''
-        call add(checkers, 'jshint')
-    endif
-    return checkers
-endfunction
+" function! GetJSCheckers()
+"     let checkers = []
+"     if findfile('.eslintrc', '.;') != '' || findfile('.eslintrc.js', '.;') != ''
+"         call add(checkers, 'eslint')
+"     endif
+"     if findfile('.jshintrc', '.;') != ''
+"         call add(checkers, 'jshint')
+"     endif
+"     return checkers
+" endfunction
 
-autocmd FileType javascript let b:syntastic_checkers = GetJSCheckers()
-let g:syntastic_typescript_checkers = ['tslint', 'tsc']
+" autocmd FileType javascript let b:syntastic_checkers = GetJSCheckers()
+" let g:syntastic_typescript_checkers = ['tslint', 'tsc']
 
 
 " Add optional packages.
@@ -402,9 +403,18 @@ nmap ga <Plug>(EasyAlign)
 " typescript
 let g:tsuquyomi_disable_quickfix = 1
 let g:tsuquyomi_shortest_import_path = 1
-"let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
+let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
 autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 
 " vue
 let g:vue_disable_pre_processors=1
 let g:formatters_vue = ['eslint_local']
+
+" next grep result
+map <F2> :cn<CR>
+
+" js formatter fix
+let g:formatters_javascript_jsx = ['jsbeautify_javascript']
+
+" nohl
+nnoremap <silent> ]oh :nohl<CR>
