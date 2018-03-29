@@ -24,7 +24,7 @@ Plug 'xolox/vim-misc'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
-Plug 'valloric/youcompleteme', { 'do': './install.py --tern-completer' }
+Plug 'valloric/youcompleteme', { 'do': './install.py --tern-completer --clang-completer' }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'jiangmiao/auto-pairs'
@@ -279,20 +279,6 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_aggregate_errors = 1
 
-" function! GetJSCheckers()
-"     let checkers = []
-"     if findfile('.eslintrc', '.;') != '' || findfile('.eslintrc.js', '.;') != ''
-"         call add(checkers, 'eslint')
-"     endif
-"     if findfile('.jshintrc', '.;') != ''
-"         call add(checkers, 'jshint')
-"     endif
-"     return checkers
-" endfunction
-
-" autocmd FileType javascript let b:syntastic_checkers = GetJSCheckers()
-" let g:syntastic_typescript_checkers = ['tslint', 'tsc']
-
 
 " Add optional packages.
 "
@@ -393,6 +379,12 @@ let g:AutoPairsMultilineClose=0
 
 " scroll
 set scrolloff=10
+"
+" next grep result
+map <F2> :cn<CR>
+
+" nohl
+nnoremap <silent> ]oh :nohl<CR>
 
 " easy-align
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -406,15 +398,21 @@ let g:tsuquyomi_shortest_import_path = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
 autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 
+" js
+function! GetJSCheckers()
+    let checkers = []
+    if findfile('.eslintrc', '.;') != '' || findfile('.eslintrc.js', '.;') != ''
+        call add(checkers, 'eslint')
+    endif
+    return checkers
+endfunction
+autocmd FileType javascript let b:syntastic_checkers = GetJSCheckers()
+let g:formatters_javascript = ['jsbeautify_javascript', 'jscs', 'standard_javascript', 'xo_javascript', 'eslint_local']
+
+" jsx
+let g:jsx_ext_required = 1
+
 " vue
 let g:vue_disable_pre_processors=1
 let g:formatters_vue = ['eslint_local']
 
-" next grep result
-map <F2> :cn<CR>
-
-" js formatter fix
-let g:formatters_javascript_jsx = ['jsbeautify_javascript']
-
-" nohl
-nnoremap <silent> ]oh :nohl<CR>
