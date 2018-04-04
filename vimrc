@@ -61,6 +61,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'csscomb/vim-csscomb', { 'do': 'sudo npm install -g csscomb' }
 Plug 'morhetz/gruvbox'
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'lervag/vimtex'
 call plug#end()
 
 
@@ -416,3 +417,15 @@ let g:jsx_ext_required = 1
 let g:vue_disable_pre_processors=1
 let g:formatters_vue = ['eslint_local']
 
+" next grep result
+map <F2> :cn<CR>
+
+" js formatter fix
+let g:formatters_javascript_jsx = ['jsbeautify_javascript']
+
+"latex
+let g:polyglot_disabled = ['latex']
+let g:tex_conceal = ""
+
+" nohl
+nnoremap <silent> ]oh :nohl<CR>
