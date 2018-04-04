@@ -6,7 +6,7 @@
 " To use it, copy it to
 "     for Unix and OS/2:  ~/.vimrc
 "     for Amiga:  s:.vimrc
-"  for MS-DOS and Win32:  $VIM\_vimrc
+"     for MS-DOS and Win32:  $VIM\_vimrc
 "     for OpenVMS:  sys$login:.vimrc
 
 
@@ -14,9 +14,9 @@ set nocompatible               " be iMproved, required
 set encoding=utf-8             " Use utf-8
 
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.vim/plugged')
@@ -24,7 +24,7 @@ Plug 'xolox/vim-misc'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
-Plug 'valloric/youcompleteme', { 'do': './install.py --tern-completer --clang-completer' }
+Plug 'valloric/youcompleteme', { 'do': 'sudo ./install.py --tern-completer --clang-completer' }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'jiangmiao/auto-pairs'
@@ -67,7 +67,7 @@ call plug#end()
 
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
-  finish
+    finish
 endif
 
 " Use Vim settings, rather than Vi settings (much better!).
@@ -78,10 +78,10 @@ set nocompatible
 set backspace=indent,eol,start
 
 if has("vms")
-  set nobackup      " do not keep a backup file, use versions instead
+    set nobackup      " do not keep a backup file, use versions instead
 else
-  set backup        " keep a backup file (restore to previous version)
-  set undofile      " keep an undo file (undo changes after closing)
+    set backup        " keep a backup file (restore to previous version)
+    set undofile      " keep an undo file (undo changes after closing)
 endif
 set history=50      " keep 50 lines of command line history
 set ruler       " show the cursor position all the time
@@ -102,45 +102,46 @@ inoremap <C-U> <C-G>u<C-U>
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
-  set mouse=a
+    set mouse=a
 endif
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
-  syntax on
-  set hlsearch
+    syntax on
+    set hlsearch
 endif
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
 
-  " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
-  " Also load indent files, to automatically do language-dependent indenting.
-  filetype plugin indent on
+    " Enable file type detection.
+    " Use the default filetype settings, so that mail gets 'tw' set to 72,
+    " 'cindent' is on in C files, etc.
+    " Also load indent files, to automatically do language-dependent indenting.
+    filetype plugin indent on
 
-  " Put these in an autocmd group, so that we can delete them easily.
-  augroup vimrcEx
-  au!
+    " Put these in an autocmd group, so that we can delete them easily.
+    augroup vimrcEx
+        au!
 
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
+        " For all text files set 'textwidth' to 78 characters.
+        autocmd FileType text setlocal textwidth=78
 
-  " When editing a file, always jump to the last known cursor position.
-  " Don't do it when the position is invalid or when inside an event handler
-  " (happens when dropping a file on gvim).
-  autocmd BufReadPost *
-    \ if line("'\"") >= 1 && line("'\"") <= line("$") |
-    \   exe "normal! g`\"" |
-    \ endif
+        " When editing a file, always jump to the last known cursor position.
+        " Don't do it when the position is invalid or when inside an event handler
+        " (happens when dropping a file on gvim).
+        autocmd BufReadPost *
+                    \ if line("'\"") >= 1 && line("'\"") <= line("$") |
+                    \   exe "normal! g`\"" |
+                    \ endif
 
-  augroup END
+    augroup END
 
 else
 
-  set autoindent        " always set autoindenting on
+    " always set autoindenting on
+    set autoindent
 
 endif " has("autocmd")
 
@@ -148,14 +149,14 @@ endif " has("autocmd")
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
 if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthisi | wincmd p | diffthis
+    command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthisi | wincmd p | diffthis
 endif
 
 if has('langmap') && exists('+langnoremap')
-  " Prevent that the langmap option applies to characters that result from a
-  " mapping.  If unset (default), this may break plugins (but it's backward
-  " compatible).
-  set langnoremap
+    " Prevent that the langmap option applies to characters that result from a
+    " mapping.  If unset (default), this may break plugins (but it's backward
+    " compatible).
+    set langnoremap
 endif
 
 " search tags
@@ -168,71 +169,19 @@ set background=dark
 set t_Co=256
 colorscheme dracula
 
-" gruvbox settings
-"let g:gruvbox_italicize_strings=1
-"colorscheme gruvbox
-"nnoremap <silent> [oh :call gruvbox#hls_show()<CR>
-"nnoremap <silent> ]oh :call gruvbox#hls_hide()<CR>
-"nnoremap <silent> coh :call gruvbox#hls_toggle()<CR>
-"nnoremap * :let @/ = ""<CR>:call gruvbox#hls_show()<CR>*
-"nnoremap / :let @/ = ""<CR>:call gruvbox#hls_show()<CR>/
-"nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
-
 " gui settings
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scrollbar
 set guioptions-=L  "remove left-hand scrollbar
 
-" split style
-"set fillchars+=|
-
-" font
-set guifont=UbuntuMonoDerivativePowerline\ Nerd\ Font\ 11
-
 " airline
 set laststatus=2
 let g:airline_theme='base16_ashes'
-let g:airline_detect_spell=0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#hunks#enabled = 0
-if has('gui_running')
-    "let g:airline_powerline_fonts=1
-
-    if !exists('g:airline_symbols')
-      let g:airline_symbols = {}
-    endif
-    
-    "" unicode symbols
-    "let g:airline_left_sep = '»'
-    "let g:airline_left_sep = ''
-    "let g:airline_right_sep = '«'
-    "let g:airline_right_sep = ''
-    "let g:airline_symbols.crypt = ''
-    "let g:airline_symbols.linenr = '␊'
-    "let g:airline_symbols.linenr = '␤'
-    "let g:airline_symbols.linenr = '¶'
-    "let g:airline_symbols.maxlinenr = '☰'
-    "let g:airline_symbols.maxlinenr = ''
-    "let g:airline_symbols.branch = '⎇'
-    "let g:airline_symbols.paste = 'ρ'
-    "let g:airline_symbols.paste = 'Þ'
-    "let g:airline_symbols.paste = '∥'
-    "let g:airline_symbols.spell = 'Ꞩ'
-    "let g:airline_symbols.notexists = '∄'
-    "let g:airline_symbols.whitespace = 'Ξ'
-    
-    "" powerline symbols
-    "let g:airline_left_sep = ''
-    "let g:airline_left_alt_sep = ''
-    "let g:airline_right_sep = ''
-    "let g:airline_right_alt_sep = ''
-    let g:airline_symbols.branch = ''
-    let g:airline_symbols.readonly = ''
-    let g:airline_symbols.linenr = ''
-endif
 
 " nerdtree-syntax-highlight
 let g:NERDTreeFileExtensionHighlightFullName = 1
@@ -240,13 +189,6 @@ let g:NERDTreeExactMatchHighlightFullName = 1
 let g:NERDTreePatternMatchHighlightFullName = 1
 let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
 let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
-
-" hide end of buffer '~'
-"if has('gui_running')
-    "hi! EndOfBuffer guibg=bg guifg=bg
-"else
-    "hi! EndOfBuffer ctermbg=bg ctermfg=bg
-"endif
 
 " config hidden characters exibition.
 " use with ':set list' and disable with ':set nolist'
@@ -322,18 +264,18 @@ set autoread
 
 " indentLine
 let g:indentLine_enabled=1
-set listchars=tab:\┆\ 
+set listchars=tab:\┆\
 set list
 
 " ==== NERD tree
 " Open the project tree and expose current file in the nerdtree with Ctrl-\
 " " calls NERDTreeFind iff NERDTree is active, current window contains a modifiable file, and we're not in vimdiff
 function! OpenNerdTree()
-  if &modifiable && strlen(expand('%')) > 0 && !&diff
-    NERDTreeFind
-  else
-    NERDTreeToggle
-  endif
+    if &modifiable && strlen(expand('%')) > 0 && !&diff
+        NERDTreeFind
+    else
+        NERDTreeToggle
+    endif
 endfunction
 nnoremap <silent> <C-\> :call OpenNerdTree()<CR>
 let NERDTreeShowHidden=1
