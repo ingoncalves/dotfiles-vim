@@ -59,9 +59,8 @@ Plug 'Yggdroot/indentLine'
 Plug 'Quramy/tsuquyomi', { 'do': 'sudo npm install -g typescript' }
 Plug 'junegunn/vim-easy-align'
 Plug 'csscomb/vim-csscomb', { 'do': 'sudo npm install -g csscomb' }
-Plug 'morhetz/gruvbox'
-Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'lervag/vimtex'
+Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
 
 
