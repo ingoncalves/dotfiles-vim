@@ -60,6 +60,7 @@ Plug 'Quramy/tsuquyomi', { 'do': 'sudo npm install -g typescript' }
 Plug 'junegunn/vim-easy-align'
 Plug 'csscomb/vim-csscomb', { 'do': 'sudo npm install -g csscomb' }
 Plug 'lervag/vimtex'
+Plug 'vim-scripts/gnuplot.vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
 
