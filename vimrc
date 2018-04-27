@@ -370,3 +370,6 @@ let g:tex_conceal = ""
 
 " nohl
 nnoremap <silent> ]oh :nohl<CR>
+
+" c/c++
+nnoremap <F6> :make<cr>
