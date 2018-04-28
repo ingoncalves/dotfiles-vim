@@ -1,10 +1,12 @@
 #!/bin/sh
 
 # install dependencies
-sudo apt-get install -y build-essential cmake python-dev python3-dev
+sudo apt-get install -y build-essential cmake python-dev python3-dev python-pip
 
 # link vim files and install plugins
 BASEDIR="$(cd "$( dirname "$0")" && pwd)"
-ln -sf $BASEDIR/.vim/* ~/.vim
+mkdir -p ~/.vim
 ln -sf $BASEDIR/.vimrc ~/.vimrc
+ln -sf $BASEDIR/.vim/UltiSnips ~/.vim/UltiSnips
 sudo vim +PlugInstall +qall
+sudo chmod -R $USER:$USER ~/.vim
