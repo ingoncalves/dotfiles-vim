@@ -50,7 +50,6 @@ Plug 'curist/vim-angular-template'
 Plug 'tpope/vim-surround'
 Plug 'moll/vim-node'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'suan/vim-instant-markdown', { 'do': 'sudo npm install -g instant-markdown-d' }
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
