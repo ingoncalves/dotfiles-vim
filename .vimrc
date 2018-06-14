@@ -32,7 +32,7 @@ Plug 'alvan/vim-closetag'
 Plug 'xolox/vim-session'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'
-Plug 'Chiel92/vim-autoformat', {'do': 'sudo npm install -g eslint js-beautify typescript-formatter'}
+Plug 'Chiel92/vim-autoformat', {'do': 'sudo npm install -g eslint js-beautify typescript-formatter && sudo pip install autopep8 && sudo apt-get install astyle'}
 Plug 'scrooloose/syntastic', { 'do': 'sudo npm install -g eslint jshint tslint' }
 Plug 'SirVer/ultisnips'
 Plug 'MarcWeber/vim-addon-mw-utils'
