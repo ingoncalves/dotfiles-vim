@@ -181,7 +181,7 @@ set guioptions-=L  "remove left-hand scrollbar
 
 " airline
 set laststatus=2
-let g:airline_theme='base16_ashes'
+let g:airline_theme='dracula'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#show_buffers = 0
