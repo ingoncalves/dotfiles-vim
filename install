@@ -9,4 +9,4 @@ mkdir -p ~/.vim
 ln -sf $BASEDIR/.vimrc ~/.vimrc
 ln -sf $BASEDIR/.vim/UltiSnips ~/.vim/UltiSnips
 sudo vim +PlugInstall +qall
-sudo chmod -R $USER:$USER ~/.vim
+sudo chown -R $USER:$USER ~/.vim

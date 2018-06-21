@@ -166,7 +166,12 @@ syntax enable
 
 set background=dark
 set t_Co=256
+let g:dracula_italic = 0
+if exists('$TMUX')
+  let g:dracula_colorterm = 0
+endif
 colorscheme dracula
+"highlight Normal ctermbg=None
 
 " gui settings
 set guioptions-=m  "remove menu bar
