@@ -82,12 +82,13 @@ else
     set backup        " keep a backup file (restore to previous version)
     set undofile      " keep an undo file (undo changes after closing)
 endif
-set history=50      " keep 50 lines of command line history
-set ruler       " show the cursor position all the time
-set showcmd     " display incomplete commands
-set incsearch       " do incremental searching
-set number      " display line numbers
+set history=50     " keep 50 lines of command line history
+set ruler          " show the cursor position all the time
+set showcmd        " display incomplete commands
+set incsearch      " do incremental searching
+set number         " display line numbers
 set numberwidth=1
+set updatetime=100 " delay of file's changes tracking (default is 4000)
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
