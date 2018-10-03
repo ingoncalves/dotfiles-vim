@@ -29,7 +29,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag'
-Plug 'xolox/vim-session'
+Plug 'tpope/vim-obsession'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'
 Plug 'Chiel92/vim-autoformat', {'do': 'sudo npm install -g eslint js-beautify typescript-formatter && sudo pip install autopep8 && sudo apt-get install astyle'}
@@ -40,6 +40,7 @@ Plug 'tomtom/tlib_vim'
 Plug 'garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
 Plug 'jamescarr/snipmate-nodejs'
+Plug 'epilande/vim-react-snippets'
 Plug 'heavenshell/vim-jsdoc'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -61,6 +62,7 @@ Plug 'csscomb/vim-csscomb', { 'do': 'sudo npm install -g csscomb' }
 Plug 'lervag/vimtex'
 Plug 'vim-scripts/gnuplot.vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'tpope/vim-unimpaired'
 call plug#end()
 
 
@@ -204,13 +206,13 @@ let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
 noremap <F3> :Autoformat<CR>
 
 " Store swap files in fixed location, not current directory.
-set backupdir=/tmp
-set undodir=/tmp
-set directory=/tmp
+set backupdir=~/.vimtmp
+set undodir=~/.vimtmp
+set directory=~/.vimtmp
 
 " session settings
-let g:session_autosave = 'no'
-let g:session_autoload = 'no'
+"let g:session_autosave = 'no'
+"let g:session_autoload = 'no'
 
 " youcompleteme
 let g:ycm_add_preview_to_completeopt=0
@@ -269,8 +271,8 @@ set autoread
 
 " indentLine
 let g:indentLine_enabled=1
-set listchars=tab:\┆\
-set list
+"set listchars=tab:\┆\
+"set list
 
 " ==== NERD tree
 " Open the project tree and expose current file in the nerdtree with Ctrl-\
@@ -346,19 +348,32 @@ let g:tsuquyomi_shortest_import_path = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
 autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 
+" custom formatetrs
+let g:formatdef_jsbeautify_editorconfig_javascript = '"js-beautify --editorconfig"'
+
 " js
 function! GetJSCheckers()
     let checkers = []
-    if findfile('.eslintrc', '.;') != '' || findfile('.eslintrc.js', '.;') != ''
+    if findfile('.eslintrc', '.;') != '' || findfile('.eslintrc.json', '.;') != ''
         call add(checkers, 'eslint')
+    endif
+    if findfile('.jshintrc', '.;') != '' || findfile('.jshintrc.json', '.;') != ''
+        call add(checkers, 'jshint')
     endif
     return checkers
 endfunction
 autocmd FileType javascript let b:syntastic_checkers = GetJSCheckers()
-let g:formatters_javascript = ['jsbeautify_javascript', 'jscs', 'standard_javascript', 'xo_javascript', 'eslint_local']
+
+" Point syntastic checker at locally installed `eslint` if it exists.
+if executable('node_modules/.bin/eslint')
+  let b:syntastic_javascript_eslint_exec = 'node_modules/.bin/eslint'
+endif
+
+let g:formatters_javascript = ['jsbeautify_editorconfig_javascript', 'jscs', 'standard_javascript', 'xo_javascript', 'eslint_local']
 
 " jsx
-let g:jsx_ext_required = 1
+let g:jsx_ext_required = 0
+let g:formatters_javascript_jsx = ['eslint_local', 'jsbeautify_editorconfig_javascript']
 
 " vue
 let g:vue_disable_pre_processors=1
@@ -366,9 +381,6 @@ let g:formatters_vue = ['eslint_local']
 
 " next grep result
 map <F2> :cn<CR>
-
-" js formatter fix
-let g:formatters_javascript_jsx = ['jsbeautify_javascript']
 
 "latex
 let g:polyglot_disabled = ['latex']
@@ -379,3 +391,7 @@ nnoremap <silent> ]oh :nohl<CR>
 
 " c/c++
 nnoremap <F6> :make<cr>
+
+" vim project specific config enable
+set exrc
+set secure
