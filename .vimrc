@@ -392,6 +392,11 @@ nnoremap <silent> ]oh :nohl<CR>
 " c/c++
 nnoremap <F6> :make<cr>
 
+" wrap
+nnoremap <F4> :set wrap linebreak nolist<cr>
+
 " vim project specific config enable
 set exrc
 set secure
+
+let g:ycm_filepath_blacklist = {}
