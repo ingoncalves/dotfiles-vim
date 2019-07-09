@@ -32,8 +32,7 @@ Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-obsession'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'
-Plug 'Chiel92/vim-autoformat', {'do': 'sudo npm install -g eslint js-beautify typescript-formatter && sudo pip install autopep8 && sudo apt-get install astyle'}
-Plug 'scrooloose/syntastic', { 'do': 'sudo npm install -g eslint jshint tslint' }
+Plug 'w0rp/ale', {'do': 'sudo npm install -g prettier eslint typescript && sudo pip install autopep8 && sudo apt-get install astyle'}
 Plug 'SirVer/ultisnips'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
@@ -63,6 +62,7 @@ Plug 'lervag/vimtex'
 Plug 'vim-scripts/gnuplot.vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'tpope/vim-unimpaired'
+Plug 'ap/vim-css-color'
 call plug#end()
 
 
@@ -202,9 +202,6 @@ let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
 "set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 "set nolist
 
-" autoformat
-noremap <F3> :Autoformat<CR>
-
 " Store swap files in fixed location, not current directory.
 set backupdir=~/.vimtmp
 set undodir=~/.vimtmp
@@ -219,16 +216,11 @@ let g:ycm_add_preview_to_completeopt=0
 let g:ycm_confirm_extra_conf=0
 set completeopt-=preview
 
-" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_aggregate_errors = 1
+" autoformat
+noremap <F3> :ALEFix<CR>
 
+" fixers
+let g:ale_fixers = ['clang-format', 'eslint', 'prettier']
 
 " Add optional packages.
 "
@@ -345,39 +337,10 @@ nmap ga <Plug>(EasyAlign)
 " typescript
 let g:tsuquyomi_disable_quickfix = 1
 let g:tsuquyomi_shortest_import_path = 1
-let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
 autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 
 " custom formatetrs
 let g:formatdef_jsbeautify_editorconfig_javascript = '"js-beautify --editorconfig"'
-
-" js
-function! GetJSCheckers()
-    let checkers = []
-    if findfile('.eslintrc', '.;') != '' || findfile('.eslintrc.json', '.;') != ''
-        call add(checkers, 'eslint')
-    endif
-    if findfile('.jshintrc', '.;') != '' || findfile('.jshintrc.json', '.;') != ''
-        call add(checkers, 'jshint')
-    endif
-    return checkers
-endfunction
-autocmd FileType javascript let b:syntastic_checkers = GetJSCheckers()
-
-" Point syntastic checker at locally installed `eslint` if it exists.
-if executable('node_modules/.bin/eslint')
-  let b:syntastic_javascript_eslint_exec = 'node_modules/.bin/eslint'
-endif
-
-let g:formatters_javascript = ['jsbeautify_editorconfig_javascript', 'jscs', 'standard_javascript', 'xo_javascript', 'eslint_local']
-
-" jsx
-let g:jsx_ext_required = 0
-let g:formatters_javascript_jsx = ['eslint_local', 'jsbeautify_editorconfig_javascript']
-
-" vue
-let g:vue_disable_pre_processors=1
-let g:formatters_vue = ['eslint_local']
 
 " next grep result
 map <F2> :cn<CR>
