@@ -49,7 +49,8 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'curist/vim-angular-template'
 Plug 'tpope/vim-surround'
 Plug 'moll/vim-node'
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
 Plug 'suan/vim-instant-markdown', { 'do': 'sudo npm install -g instant-markdown-d' }
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
@@ -220,7 +221,13 @@ set completeopt-=preview
 noremap <F3> :ALEFix<CR>
 
 " fixers
-let g:ale_fixers = ['clang-format', 'eslint', 'prettier']
+let g:ale_fixers = {
+\    '*': ['remove_trailing_lines', 'trim_whitespace'],
+\    'cpp': ['clang-format'],
+\    'javascript': ['eslint', 'prettier'],
+\    'python': ['autopep8'],
+\}
+let g:ale_linters = { 'javascript': ['eslint'] }
 
 " Add optional packages.
 "
@@ -294,9 +301,14 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
-" CTRLP settings
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard'] " ignores files .gitignore
+" fzf
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+noremap <leader><tab> :Files<CR>
+" Enable per-command history.
+" CTRL-N and CTRL-P will be automatically bound to next-history and
+" previous-history instead of down and up. If you don't like the change,
+" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 " easymotion
 " <Leader>f{char} to move to {char}
@@ -321,12 +333,6 @@ let g:AutoPairsMultilineClose=0
 
 " scroll
 set scrolloff=10
-"
-" next grep result
-map <F2> :cn<CR>
-
-" nohl
-nnoremap <silent> ]oh :nohl<CR>
 
 " easy-align
 " Start interactive EasyAlign in visual mode (e.g. vipga)
