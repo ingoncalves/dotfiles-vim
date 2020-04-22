@@ -1,13 +1,13 @@
-" A VIM config file.
-"
-" Maintainer:   Guilherme Goncalves <inacio.guilherme@gmail.com>
-" Credits:      Bram Moolenaar <Bram@vim.org>
-"
-" To use it, copy it to
-"     for Unix and OS/2:  ~/.vimrc
-"     for Amiga:  s:.vimrc
-"     for MS-DOS and Win32:  $VIM\_vimrc
-"     for OpenVMS:  sys$login:.vimrc
+	" A VIM config file.
+	"
+	" Maintainer:   Guilherme Goncalves <inacio.guilherme@gmail.com>
+	" Credits:      Bram Moolenaar <Bram@vim.org>
+	"
+	" To use it, copy it to
+	"     for Unix and OS/2:  ~/.vimrc
+	"     for Amiga:  s:.vimrc
+	"     for MS-DOS and Win32:  $VIM\_vimrc
+	"     for OpenVMS:  sys$login:.vimrc
 
 
 set nocompatible               " be iMproved, required
@@ -24,15 +24,15 @@ Plug 'xolox/vim-misc'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
-Plug 'valloric/youcompleteme', { 'do': 'sudo ./install.py --tern-completer --clang-completer' }
+Plug 'valloric/youcompleteme', { 'do': './install.py --tern-completer --clang-completer' }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'sheerun/vim-polyglot'
-Plug 'jiangmiao/auto-pairs'
-Plug 'alvan/vim-closetag'
+"Plug 'jiangmiao/auto-pairs'
+"Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-obsession'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'scrooloose/nerdcommenter'
-Plug 'w0rp/ale', {'do': 'sudo npm install -g prettier eslint typescript && sudo pip install autopep8 && sudo apt-get install astyle'}
+Plug 'preservim/nerdtree'
+Plug 'w0rp/ale'
 Plug 'SirVer/ultisnips'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
@@ -49,21 +49,24 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'curist/vim-angular-template'
 Plug 'tpope/vim-surround'
 Plug 'moll/vim-node'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'suan/vim-instant-markdown', { 'do': 'sudo npm install -g instant-markdown-d' }
+Plug 'suan/vim-instant-markdown'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
-Plug 'xolox/vim-easytags', { 'do': 'sudo apt-get install exuberant-ctags' }
+Plug 'xolox/vim-easytags'
 Plug 'Yggdroot/indentLine'
-Plug 'Quramy/tsuquyomi', { 'do': 'sudo npm install -g typescript' }
+Plug 'Quramy/tsuquyomi'
 Plug 'junegunn/vim-easy-align'
-Plug 'csscomb/vim-csscomb', { 'do': 'sudo npm install -g csscomb' }
+Plug 'csscomb/vim-csscomb'
 Plug 'lervag/vimtex'
 Plug 'vim-scripts/gnuplot.vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'tpope/vim-unimpaired'
 Plug 'ap/vim-css-color'
+Plug 'preservim/nerdcommenter'
+Plug 'camspiers/animate.vim'
+Plug 'camspiers/lens.vim'
 call plug#end()
 
 
@@ -197,6 +200,7 @@ let g:NERDTreeExactMatchHighlightFullName = 1
 let g:NERDTreePatternMatchHighlightFullName = 1
 let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
 let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+let g:NERDTreeNodeDelimiter = "\u00a0" " hides ^G
 
 " config hidden characters exibition.
 " use with ':set list' and disable with ':set nolist'
@@ -216,9 +220,10 @@ set directory=~/.vimtmp
 let g:ycm_add_preview_to_completeopt=0
 let g:ycm_confirm_extra_conf=0
 set completeopt-=preview
+let g:ycm_filepath_blacklist = {}
 
 " autoformat
-noremap <F3> :ALEFix<CR>
+noremap <Leader>f :ALEFix<CR>
 
 " fixers
 let g:ale_fixers = {
@@ -274,7 +279,7 @@ let g:indentLine_enabled=1
 "set list
 
 " ==== NERD tree
-" Open the project tree and expose current file in the nerdtree with Ctrl-\
+" Open the project tree and expose current file in the nerdtree with <leader>t
 " " calls NERDTreeFind iff NERDTree is active, current window contains a modifiable file, and we're not in vimdiff
 function! OpenNerdTree()
     if &modifiable && strlen(expand('%')) > 0 && !&diff
@@ -283,7 +288,7 @@ function! OpenNerdTree()
         NERDTreeToggle
     endif
 endfunction
-nnoremap <silent> <C-\> :call OpenNerdTree()<CR>
+nnoremap <silent> <leader>t :call OpenNerdTree()<CR>
 let NERDTreeShowHidden=1
 
 " disable auto-hide
@@ -304,6 +309,7 @@ set expandtab
 " fzf
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 noremap <leader><tab> :Files<CR>
+noremap <leader>A :Ag<CR>
 " Enable per-command history.
 " CTRL-N and CTRL-P will be automatically bound to next-history and
 " previous-history instead of down and up. If you don't like the change,
@@ -312,13 +318,13 @@ let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 " easymotion
 " <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
+map  <Leader>a <Plug>(easymotion-bd-f)
+nmap <Leader>a <Plug>(easymotion-overwin-f)
 " s{char}{char} to move to {char}{char}
 nmap s <Plug>(easymotion-overwin-f2)
 " Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
+map <Leader>l <Plug>(easymotion-bd-jk)
+nmap <Leader>l <Plug>(easymotion-overwin-line)
 " Move to word
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
@@ -354,6 +360,9 @@ map <F2> :cn<CR>
 "latex
 let g:polyglot_disabled = ['latex']
 let g:tex_conceal = ""
+let g:vimtex_view_method = 'skim'
+let g:tex_flavor='latex'
+let g:vimtex_quickfix_open_on_warning = 0
 
 " nohl
 nnoremap <silent> ]oh :nohl<CR>
@@ -364,8 +373,9 @@ nnoremap <F6> :make<cr>
 " wrap
 nnoremap <F4> :set wrap linebreak nolist<cr>
 
+" auto indent on paste
+nnoremap p p=`]
+
 " vim project specific config enable
 set exrc
 set secure
-
-let g:ycm_filepath_blacklist = {}

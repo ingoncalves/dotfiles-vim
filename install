@@ -1,21 +1,28 @@
 #!/bin/sh
 
 # install dependencies
-sudo apt-get install -y \
-    build-essential \
+brew install \
     cmake \
-    python-dev \
-    python3-dev \
-    python-pip \
-    silversearcher-ag
+    ctags \
+    fzf \
+    the_silver_searcher \
+    ripgrep \
+    astyle
 
-# install ripgrep for fzf-vim plugin
-sudo snap install ripgrep --classic
+python -m pip install \
+	autopep8
+
+npm install -g \
+	prettier \
+	eslint \
+	typescript \
+	instant-markdown-d \
+	csscomb
 
 # link vim files and install plugins
 BASEDIR="$(cd "$( dirname "$0")" && pwd)"
 mkdir -p ~/.vim
 ln -sf $BASEDIR/.vimrc ~/.vimrc
 ln -sf $BASEDIR/.vim/UltiSnips ~/.vim/UltiSnips
-sudo vim +PlugInstall +qall
-sudo chown -R $USER:$USER ~/.vim
+
+#vim +PlugInstall +qall
