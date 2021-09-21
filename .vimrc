@@ -30,7 +30,8 @@ Plug 'valloric/youcompleteme', { 'do': './install.py --ts-completer --clang-comp
 Plug 'editorconfig/editorconfig-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-obsession'
-Plug 'terryma/vim-multiple-cursors'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'preservim/nerdtree'
 Plug 'w0rp/ale'
 Plug 'SirVer/ultisnips'
@@ -49,8 +50,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'curist/vim-angular-template'
 Plug 'tpope/vim-surround'
 Plug 'moll/vim-node'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'suan/vim-instant-markdown'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
@@ -328,16 +327,11 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
-" fzf
-let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
-noremap <leader><tab> :Files<CR>
-noremap <leader>] :GFiles<CR>
-noremap <leader>A :Rg<CR>
-" Enable per-command history.
-" CTRL-N and CTRL-P will be automatically bound to next-history and
-" previous-history instead of down and up. If you don't like the change,
-" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
-let g:fzf_history_dir = '~/.local/share/fzf-history'
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " easymotion
 " <Leader>f{char} to move to {char}
