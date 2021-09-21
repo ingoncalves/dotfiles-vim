@@ -22,18 +22,30 @@ endif
 let g:polyglot_disabled = ['latex']
 
 call plug#begin('~/.vim/plugged')
+" git integration
 Plug 'xolox/vim-misc'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+
+" autocompleter
 Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
 Plug 'valloric/youcompleteme', { 'do': './install.py --ts-completer --clang-completer' }
+
+" syntax highlighting and code style
 Plug 'editorconfig/editorconfig-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-obsession'
+
+" file and content finder
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" linter and autoformatting
 Plug 'w0rp/ale'
+
+" snippets
 Plug 'SirVer/ultisnips'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
@@ -41,30 +53,27 @@ Plug 'garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
 Plug 'jamescarr/snipmate-nodejs'
 Plug 'epilande/vim-react-snippets'
-Plug 'heavenshell/vim-jsdoc'
+
+" vim UI
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'geoffharcourt/vim-matchit'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'curist/vim-angular-template'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'ap/vim-css-color'
+
+" language commom helpers
+Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-surround'
-Plug 'moll/vim-node'
-Plug 'suan/vim-instant-markdown'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
-Plug 'xolox/vim-easytags'
-Plug 'Yggdroot/indentLine'
-Plug 'Quramy/tsuquyomi'
 Plug 'junegunn/vim-easy-align'
-Plug 'csscomb/vim-csscomb'
-Plug 'lervag/vimtex'
-Plug 'vim-scripts/gnuplot.vim'
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'tpope/vim-unimpaired'
-Plug 'ap/vim-css-color'
-Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-abolish'
+
+" language specific helpers
+Plug 'heavenshell/vim-jsdoc'
+Plug 'moll/vim-node'
+Plug 'lervag/vimtex'
+Plug 'https://github.com/adelarsq/vim-matchit'
+Plug 'suan/vim-instant-markdown'
 Plug 'jmcantrell/vim-virtualenv'
 call plug#end()
 
@@ -226,7 +235,7 @@ nnoremap <Leader>gf :YcmCompleter GoToDefinition<CR>
 nnoremap <Leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " autoformat
-noremap <Leader>f :ALEFix<CR>
+noremap <Leader>x :ALEFix<CR>
 
 " fixers
 let g:ale_fixers = {
