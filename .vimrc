@@ -19,16 +19,16 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+let g:polyglot_disabled = ['latex']
+
 call plug#begin('~/.vim/plugged')
 Plug 'xolox/vim-misc'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
-Plug 'valloric/youcompleteme', { 'do': './install.py --tern-completer --clang-completer' }
+Plug 'valloric/youcompleteme', { 'do': './install.py --ts-completer --clang-completer' }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'sheerun/vim-polyglot'
-"Plug 'jiangmiao/auto-pairs'
-"Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-obsession'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'preservim/nerdtree'
@@ -49,7 +49,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'curist/vim-angular-template'
 Plug 'tpope/vim-surround'
 Plug 'moll/vim-node'
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'suan/vim-instant-markdown'
 Plug 'easymotion/vim-easymotion'
@@ -65,8 +65,8 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'tpope/vim-unimpaired'
 Plug 'ap/vim-css-color'
 Plug 'preservim/nerdcommenter'
-Plug 'camspiers/animate.vim'
-Plug 'camspiers/lens.vim'
+Plug 'tpope/vim-abolish'
+Plug 'jmcantrell/vim-virtualenv'
 call plug#end()
 
 
@@ -166,7 +166,8 @@ if has('langmap') && exists('+langnoremap')
 endif
 
 " search tags
-set tags=tags;/
+"set tags=tags;/
+set tags=tags
 
 " window settings
 syntax enable
@@ -221,6 +222,9 @@ let g:ycm_add_preview_to_completeopt=0
 let g:ycm_confirm_extra_conf=0
 set completeopt-=preview
 let g:ycm_filepath_blacklist = {}
+nnoremap <Leader>gl :YcmCompleter GoToDeclaration<CR>
+nnoremap <Leader>gf :YcmCompleter GoToDefinition<CR>
+nnoremap <Leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " autoformat
 noremap <Leader>f :ALEFix<CR>
@@ -229,7 +233,7 @@ noremap <Leader>f :ALEFix<CR>
 let g:ale_fixers = {
 \    '*': ['remove_trailing_lines', 'trim_whitespace'],
 \    'cpp': ['clang-format'],
-\    'javascript': ['eslint', 'prettier'],
+\    'javascript': ['eslint', 'prettier', 'xo'],
 \    'python': ['autopep8'],
 \}
 let g:ale_linters = { 'javascript': ['eslint'] }
@@ -255,6 +259,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+let g:snipMate = { 'snippet_version' : 1 }
+
 
 " Set split sides
 set splitbelow
@@ -272,6 +278,19 @@ set cul
 
 " auto refresh files
 set autoread
+augroup checktime
+    au!
+    if !has("gui_running")
+        "silent! necessary otherwise throws errors when using command
+        "line window.
+        autocmd BufEnter        * silent! checktime
+        autocmd CursorHold      * silent! checktime
+        autocmd CursorHoldI     * silent! checktime
+        "these two _may_ slow things down. Remove if they do.
+        autocmd CursorMoved     * silent! checktime
+        autocmd CursorMovedI    * silent! checktime
+    endif
+augroup END
 
 " indentLine
 let g:indentLine_enabled=1
@@ -292,7 +311,10 @@ nnoremap <silent> <leader>t :call OpenNerdTree()<CR>
 let NERDTreeShowHidden=1
 
 " disable auto-hide
-let g:vim_json_syntax_conceal = 0
+let g:indentLine_setConceal = 0
+let g:vim_json_syntax_conceal=0
+let g:vim_markdown_conceal=0
+let g:vim_markdown_conceal_code_blocks=0
 set conceallevel=0
 set cole=0
 au FileType * setl cole=0
@@ -307,9 +329,10 @@ set shiftwidth=4
 set expandtab
 
 " fzf
-let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 noremap <leader><tab> :Files<CR>
-noremap <leader>A :Ag<CR>
+noremap <leader>] :GFiles<CR>
+noremap <leader>A :Rg<CR>
 " Enable per-command history.
 " CTRL-N and CTRL-P will be automatically bound to next-history and
 " previous-history instead of down and up. If you don't like the change,
@@ -358,7 +381,6 @@ let g:formatdef_jsbeautify_editorconfig_javascript = '"js-beautify --editorconfi
 map <F2> :cn<CR>
 
 "latex
-let g:polyglot_disabled = ['latex']
 let g:tex_conceal = ""
 let g:vimtex_view_method = 'skim'
 let g:tex_flavor='latex'
@@ -369,12 +391,20 @@ nnoremap <silent> ]oh :nohl<CR>
 
 " c/c++
 nnoremap <F6> :make<cr>
+autocmd BufEnter *.C :setlocal filetype=cpp
 
 " wrap
 nnoremap <F4> :set wrap linebreak nolist<cr>
 
 " auto indent on paste
 nnoremap p p=`]
+
+" move lines
+nnoremap <S-Up> :m .-2<CR>==
+nnoremap <S-Down> :m .+1<CR>==
+
+" Python venv
+let g:virtualenv_directory = $PWD
 
 " vim project specific config enable
 set exrc
