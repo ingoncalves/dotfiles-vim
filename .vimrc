@@ -38,8 +38,8 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
 
 " linter and autoformatting
 Plug 'w0rp/ale'
@@ -179,13 +179,14 @@ set tags=tags
 " window settings
 syntax enable
 
-set background=dark
-set t_Co=256
-let g:dracula_italic = 0
+"set background=dark
+"set t_Co=256
+"let g:dracula_italic = 0
 if exists('$TMUX')
   let g:dracula_colorterm = 0
 endif
 colorscheme dracula
+set termguicolors
 "highlight Normal ctermbg=None
 
 " gui settings
@@ -304,19 +305,6 @@ let g:indentLine_enabled=1
 "set listchars=tab:\┆\
 "set list
 
-" ==== NERD tree
-" Open the project tree and expose current file in the nerdtree with <leader>t
-" " calls NERDTreeFind iff NERDTree is active, current window contains a modifiable file, and we're not in vimdiff
-function! OpenNerdTree()
-    if &modifiable && strlen(expand('%')) > 0 && !&diff
-        NERDTreeFind
-    else
-        NERDTreeToggle
-    endif
-endfunction
-nnoremap <silent> <leader>t :call OpenNerdTree()<CR>
-let NERDTreeShowHidden=1
-
 " disable auto-hide
 let g:indentLine_setConceal = 0
 let g:vim_json_syntax_conceal=0
@@ -340,6 +328,15 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" NvimTree
+nnoremap <C-n> :NvimTreeToggle<CR>
+nnoremap <leader>r :NvimTreeRefresh<CR>
+nnoremap <leader>n :NvimTreeFindFile<CR>
+let g:nvim_tree_auto_close = 1 "closes the tree when it's the last window
+let g:nvim_tree_follow = 1 "allows the cursor to be updated when entering a buffer
+let g:nvim_tree_follow_update_path = 1 "will update the path of the current dir if the file is not inside the tree.
+let g:nvim_tree_highlight_opened_files = 1 "will enable folder and file icon highlight for opened files/directories.
 
 " easymotion
 " <Leader>f{char} to move to {char}
