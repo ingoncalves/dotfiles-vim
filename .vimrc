@@ -329,7 +329,9 @@ set shiftwidth=4
 set expandtab
 
 " fzf
-let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 noremap <leader><tab> :Files<CR>
 noremap <leader>] :GFiles<CR>
 noremap <leader>A :Rg<CR>
