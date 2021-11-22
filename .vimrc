@@ -388,6 +388,9 @@ let g:vimtex_view_method = 'skim'
 let g:tex_flavor='latex'
 let g:vimtex_quickfix_open_on_warning = 0
 
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
 " nohl
 nnoremap <silent> ]oh :nohl<CR>
 
