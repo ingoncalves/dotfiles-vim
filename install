@@ -13,11 +13,12 @@ python -m pip install \
 	autopep8
 
 npm install -g \
-	prettier \
-	eslint \
-	typescript \
-	instant-markdown-d \
-	csscomb
+    xo \
+    prettier \
+    eslint \
+    typescript \
+    instant-markdown-d \
+    csscomb
 
 # link vim files and install plugins
 BASEDIR="$(cd "$( dirname "$0")" && pwd)"

@@ -25,14 +25,12 @@ call plug#begin('~/.vim/plugged')
 Plug 'xolox/vim-misc'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
-Plug 'valloric/youcompleteme', { 'do': './install.py --ts-completer --clang-completer' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'editorconfig/editorconfig-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-obsession'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'preservim/nerdtree'
-Plug 'w0rp/ale'
 Plug 'SirVer/ultisnips'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
@@ -46,7 +44,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'https://github.com/adelarsq/vim-matchit'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'curist/vim-angular-template'
 Plug 'tpope/vim-surround'
 Plug 'moll/vim-node'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -56,7 +53,6 @@ Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-repeat'
 Plug 'xolox/vim-easytags'
 Plug 'Yggdroot/indentLine'
-Plug 'Quramy/tsuquyomi'
 Plug 'junegunn/vim-easy-align'
 Plug 'csscomb/vim-csscomb'
 Plug 'lervag/vimtex'
@@ -217,26 +213,89 @@ set directory=~/.vimtmp
 "let g:session_autosave = 'no'
 "let g:session_autoload = 'no'
 
-" youcompleteme
-let g:ycm_add_preview_to_completeopt=0
-let g:ycm_confirm_extra_conf=0
-set completeopt-=preview
-let g:ycm_filepath_blacklist = {}
-nnoremap <Leader>gl :YcmCompleter GoToDeclaration<CR>
-nnoremap <Leader>gf :YcmCompleter GoToDefinition<CR>
-nnoremap <Leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" coc
+let g:coc_global_extensions = [
+            \ 'coc-clangd',
+            \ 'coc-cmake',
+            \ 'coc-css',
+            \ 'coc-eslint',
+            \ 'coc-fzf-preview',
+            \ 'coc-html',
+            \ 'coc-json',
+            \ 'coc-ltex',
+            \ 'coc-python',
+            \ 'coc-sh',
+            \ 'coc-tsserver',
+            \ 'coc-xml',
+            \ 'coc-yaml'
+            \ ]
+
+" TextEdit might fail if hidden is not set.
+set hidden
+" Some servers have issues with backup files
+set nobackup
+set nowritebackup
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+" Don't pass messages to |ins-completion-menu|.
+" set shortmess+=c
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+" if has("nvim-0.5.0") || has("patch-8.1.1564")
+  " " Recently vim can merge signcolumn and number column into one
+  " set signcolumn=number
+" else
+  " set signcolumn=yes
+" endif
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gD <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " autoformat
-noremap <Leader>f :ALEFix<CR>
+nmap <leader>f <Plug>(coc-codeaction)
 
-" fixers
-let g:ale_fixers = {
-\    '*': ['remove_trailing_lines', 'trim_whitespace'],
-\    'cpp': ['clang-format'],
-\    'javascript': ['eslint', 'prettier', 'xo'],
-\    'python': ['autopep8'],
-\}
-let g:ale_linters = { 'javascript': ['eslint'] }
+" refactoring
+nmap <leader>rf <Plug>(coc-refactor)
+nmap <leader>rn <Plug>(coc-rename)
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Add optional packages.
 "
@@ -370,11 +429,6 @@ set scrolloff=10
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-
-" typescript
-let g:tsuquyomi_disable_quickfix = 1
-let g:tsuquyomi_shortest_import_path = 1
-autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 
 " custom formatetrs
 let g:formatdef_jsbeautify_editorconfig_javascript = '"js-beautify --editorconfig"'
