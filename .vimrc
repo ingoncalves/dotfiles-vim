@@ -497,6 +497,9 @@ nnoremap <S-Down> :m .+1<CR>==
 " Python venv
 let g:virtualenv_directory = $PWD
 
+" highlight word under cursor with * without jumpping
+nnoremap * :let @/ = '\<'.expand('<cword>').'\>'\|set hlsearch<C-M>
+
 " vim project specific config enable
 set exrc
 set secure
