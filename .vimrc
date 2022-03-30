@@ -31,10 +31,6 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-obsession'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'preservim/nerdtree'
-Plug 'SirVer/ultisnips'
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'tomtom/tlib_vim'
-Plug 'garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
 Plug 'jamescarr/snipmate-nodejs'
 Plug 'epilande/vim-react-snippets'
@@ -225,6 +221,8 @@ let g:coc_global_extensions = [
             \ 'coc-ltex',
             \ 'coc-python',
             \ 'coc-sh',
+            \ 'coc-snippets',
+            \ 'coc-stylelintplus',
             \ 'coc-tsserver',
             \ 'coc-xml',
             \ 'coc-yaml'
@@ -297,6 +295,20 @@ nmap <leader>rn <Plug>(coc-rename)
 " provide custom statusline: lightline.vim, vim-airline.
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
+" coc-snippets config
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+" Use <leader>x for convert visual selected code to snippet
+xmap <leader>x  <Plug>(coc-convert-snippet)
+
 " Add optional packages.
 "
 " The matchit plugin makes the % command work better, but it is not backwards
@@ -309,17 +321,6 @@ nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 
 set nowrap
 set hlsearch
-
-" Trigger configuration. Do not use <tab> if you use
-" https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<C-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-let g:snipMate = { 'snippet_version' : 1 }
-
 
 " Set split sides
 set splitbelow
